@@ -1,0 +1,94 @@
+digraph AbstractFactory {
+    rankdir=BT;
+    fontname="Helvetica";
+    graph [nodesep=0.55, ranksep=1.0, bgcolor="white"];
+    node [shape=plain, fontname="Helvetica", fontsize=11];
+    edge [fontname="Helvetica", fontsize=10];
+
+    Button [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><I>&#171;interface&#187;</I></TD></TR>
+        <TR><TD><B>Button</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ paint(): void</TD></TR>
+        </TABLE>>];
+
+    Checkbox [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><I>&#171;interface&#187;</I></TD></TR>
+        <TR><TD><B>Checkbox</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ paint(): void</TD></TR>
+        </TABLE>>];
+
+    WindowsButton [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>WindowsButton</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ paint(): void</TD></TR>
+        </TABLE>>];
+
+    MacOSButton [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>MacOSButton</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ paint(): void</TD></TR>
+        </TABLE>>];
+
+    WindowsCheckbox [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>WindowsCheckbox</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ paint(): void</TD></TR>
+        </TABLE>>];
+
+    MacOSCheckbox [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>MacOSCheckbox</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ paint(): void</TD></TR>
+        </TABLE>>];
+
+    GUIFactory [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><I>&#171;interface&#187;</I></TD></TR>
+        <TR><TD><B>GUIFactory</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ createButton(): Button</TD></TR>
+        <TR><TD ALIGN="LEFT">+ createCheckbox(): Checkbox</TD></TR>
+        </TABLE>>];
+
+    WindowsFactory [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>WindowsFactory</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ createButton(): Button</TD></TR>
+        <TR><TD ALIGN="LEFT">+ createCheckbox(): Checkbox</TD></TR>
+        </TABLE>>];
+
+    MacOSFactory [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>MacOSFactory</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ createButton(): Button</TD></TR>
+        <TR><TD ALIGN="LEFT">+ createCheckbox(): Checkbox</TD></TR>
+        </TABLE>>];
+
+    DeliveryApplication [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>DeliveryApplication</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">- guiFactory: GUIFactory</TD></TR>
+        <TR><TD ALIGN="LEFT">- logistics: Logistics</TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ DeliveryApplication(guiFactory, logistics)</TD></TR>
+        <TR><TD ALIGN="LEFT">+ run(cargo, destination): void</TD></TR>
+        </TABLE>>];
+
+    WindowsButton -> Button [arrowhead=empty, style=dashed, label="  «realize»"];
+    MacOSButton -> Button [arrowhead=empty, style=dashed, label="  «realize»"];
+    WindowsCheckbox -> Checkbox [arrowhead=empty, style=dashed, label="  «realize»"];
+    MacOSCheckbox -> Checkbox [arrowhead=empty, style=dashed, label="  «realize»"];
+
+    WindowsFactory -> GUIFactory [arrowhead=empty, style=dashed, label="  «realize»"];
+    MacOSFactory -> GUIFactory [arrowhead=empty, style=dashed, label="  «realize»"];
+
+    WindowsFactory -> WindowsButton [arrowhead=vee, style=dashed, label="  «creates»"];
+    WindowsFactory -> WindowsCheckbox [arrowhead=vee, style=dashed, label="  «creates»"];
+    MacOSFactory -> MacOSButton [arrowhead=vee, style=dashed, label="  «creates»"];
+    MacOSFactory -> MacOSCheckbox [arrowhead=vee, style=dashed, label="  «creates»"];
+
+    DeliveryApplication -> GUIFactory [arrowhead=vee, label="  uses"];
+
+    { rank=same; WindowsButton; MacOSButton; WindowsCheckbox; MacOSCheckbox; }
+    { rank=same; WindowsFactory; MacOSFactory; }
+}

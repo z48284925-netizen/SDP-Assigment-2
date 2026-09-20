@@ -1,0 +1,67 @@
+digraph FactoryMethod {
+    rankdir=BT;
+    fontname="Helvetica";
+    graph [nodesep=0.7, ranksep=1.0, bgcolor="white"];
+    node [shape=plain, fontname="Helvetica", fontsize=11];
+    edge [fontname="Helvetica", fontsize=10];
+
+    Transport [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><I>&#171;interface&#187;</I></TD></TR>
+        <TR><TD><B>Transport</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ deliver(cargo, destination): void</TD></TR>
+        </TABLE>>];
+
+    Truck [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>Truck</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ deliver(cargo, destination): void</TD></TR>
+        </TABLE>>];
+
+    Ship [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>Ship</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ deliver(cargo, destination): void</TD></TR>
+        </TABLE>>];
+
+    Logistics [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><I>&#171;abstract&#187;</I></TD></TR>
+        <TR><TD><B><I>Logistics</I></B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ createTransport(): Transport &#160;&#160;<I>{abstract}</I></TD></TR>
+        <TR><TD ALIGN="LEFT">+ planDelivery(cargo, destination): void</TD></TR>
+        </TABLE>>];
+
+    RoadLogistics [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>RoadLogistics</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ createTransport(): Transport</TD></TR>
+        </TABLE>>];
+
+    SeaLogistics [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>SeaLogistics</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ createTransport(): Transport</TD></TR>
+        </TABLE>>];
+
+    DeliveryApplication [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+        <TR><TD><B>DeliveryApplication</B></TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">- guiFactory: GUIFactory</TD></TR>
+        <TR><TD ALIGN="LEFT">- logistics: Logistics</TD></TR>
+        <TR><TD BORDER="1" SIDES="T" ALIGN="LEFT">+ DeliveryApplication(guiFactory, logistics)</TD></TR>
+        <TR><TD ALIGN="LEFT">+ run(cargo, destination): void</TD></TR>
+        </TABLE>>];
+
+    Truck -> Transport [arrowhead=empty, style=dashed, label="  «realize»"];
+    Ship -> Transport [arrowhead=empty, style=dashed, label="  «realize»"];
+
+    RoadLogistics -> Logistics [arrowhead=empty];
+    SeaLogistics -> Logistics [arrowhead=empty];
+
+    Logistics -> Transport [arrowhead=vee, style=dashed, label="  «creates» via createTransport()"];
+    DeliveryApplication -> Logistics [arrowhead=vee, label="  uses"];
+
+    { rank=same; Truck; Ship; }
+    { rank=same; RoadLogistics; SeaLogistics; }
+}
